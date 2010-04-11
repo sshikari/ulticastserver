@@ -1,28 +1,12 @@
 import java.sql.Timestamp
 import grails.converters.JSON
 import com.ulticast.domain.*
-import com.test.Book
-import com.test.Author
+
 
 
 class BootStrap {
      def init = { servletContext ->
-        // Create some test data
-//        new Book(author:"Stephen King",title:"The Shining").save()
-//        new Book(author:"James Patterson",title:"Along Came a Spider").save()
-//        new Book(author:"JRR Tolkien",title:"The Hobbit").save()
 
-         //JSON.registerObjectMarshaller(Date) {
-         //   return it?.format("dd-MM-yyyy hh:mm:ss")
-        // }
-
-        new Author(firstName:"Stephen",lastName:"King")
-        .addToBooks(new Book(title:"The Shining"))
-        .addToBooks(new Book(title:"Cujo"))
- 	.save()
-        new Author(firstName:"JRR",lastName:"Tolkien")
-        .addToBooks(new Book(title:"The Bored of the Rings"))
- 	.save()
 
 
        // ULTICAST

@@ -1,5 +1,6 @@
-package com.ulticast.domain
+package com.ulticast.controller;
 
+import com.ulticast.domain.*
 import grails.converters.*
 import com.ulticast.util.*
 

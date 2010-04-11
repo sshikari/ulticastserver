@@ -1,4 +1,6 @@
-package com.ulticast.domain
+package com.ulticast.controller
+
+import com.ulticast.domain.*
 
 class GameController {
 
