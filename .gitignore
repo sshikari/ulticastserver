@@ -2,3 +2,4 @@ target
 .classpath
 .settings
 .project
+web-app/WEB-INF/classes
