@@ -10,68 +10,65 @@ class BootStrap {
 
 
        // ULTICAST
-        Player bill = new Player(name:"Bill", number:7)
-	bill.save()
-        Player hill = new Player(name:"Hillary", number:8)
-	hill.save()
-        Player rich = new Player(name:"Rich", number:10)
-        Player blake = new Player(name:"Blake", number:11)
+        Player bill = new Player(nickname:"Bill", number:7)
+        Player hill = new Player(nickname:"Hillary", number:8)
+        Player rich = new Player(nickname:"Rich", number:10)
+        Player blake = new Player(nickname:"Blake", number:11)
 
-	Team harvard = new Team(teamName:"Harvard")
+        Team harvard = new Team(teamName:"Harvard")
 		harvard.addToPlayers(bill)
-		.addToPlayers(hill)
-		.save()
-	Team tufts = new Team(teamName:"Tufts")
+			   .addToPlayers(hill)
+			   .save()
+		Team tufts = new Team(teamName:"Tufts")
 		tufts.addToPlayers(rich)	
-		.addToPlayers(blake)
-		.save()
+			 .addToPlayers(blake)
+			 .save()
 
         Game game = new Game(homeTeam:harvard, awayTeam:tufts)
-	game.save()
+        game.save()
 
         Game game2 = new Game(homeTeam:harvard, awayTeam:tufts)
-	game2.save()
+        game2.save()
 
         Date now = new Date()
-        new TimeEvent(game:game, timeType: "START",
-                      team: harvard,
-	    	     timestamp: now).save()
+        new TimeEvent(game:game, timeType: "START", team: harvard,
+                      timestamp: now).save()
 	
-	new PassEvent(player:bill, 
+        new PassEvent(player:bill, 
 		      game: game,
 		      team: harvard, 
 		      timestamp: now).save()
-	new PassEvent(player:hill, 
+	    new PassEvent(player:hill, 
 		      game: game, 
 		      team: harvard, 
 		      timestamp: now).save()	
-	new ScoreEvent(player:bill, 
-		       assister:hill,
-                      distanceDescriptor: "from midfield!!!",
+	    new ScoreEvent(player:bill, 
+		      assister:hill,
+              distanceDescriptor: "from midfield!!!",
 		      game: game, 
 		      team: harvard,
 		      score: 1, 
 		      timestamp: now).save()
         new TimeEvent(game:game, team: tufts, timeType: "TIMEOUT",
 		      timestamp: now).save()
-	new PassEvent(player:rich, 
+	    new PassEvent(player:rich, 
 		      game: game,
 		      team: tufts, 
 		      timestamp: now).save()
-	new PassEvent(player:blake, 
+	    new PassEvent(player:blake, 
 		      game: game, 
 		      team: tufts, 
 		      timestamp: now).save()	
-	new TurnEvent(player:rich, 
-                      turnType: "DROP",
+	    new TurnEvent(player:rich, 
+              turnType: "DROP",
 		      game: game, 
 		      team: tufts,
-                      notes: "rich missed an easy one...:(",
+              notes: "rich missed an easy one...:(",
 		      timestamp: now).save()
         new CallEvent(callType: "FOUL", 
 		      contested: Boolean.TRUE,
 		      caller:bill,
-                      fouler:rich,
+              fouler:rich,
 		      game: game, 
 		      team: tufts, 
 		      timestamp: now).save()	

@@ -27,7 +27,12 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 // The default codec used to encode data with ${}
 grails.views.default.codec="none" // none, html, base64
 grails.views.gsp.encoding="UTF-8"
-grails.converters.encoding="UTF-8"
+grails.converters.encoding = "UTF-8"
+grails.converters.json.date = "javascript"
+//grails.converters.json.default.deep = true
+
+grails.json.legacy.builder=false
+
 // enable Sitemesh preprocessing of GSP pages
 grails.views.gsp.sitemesh.preprocess = true
 // scaffolding templates configuration
@@ -41,6 +46,8 @@ grails.enable.native2ascii = true
 grails.logging.jul.usebridge = true
 // packages to include in Spring bean scanning
 grails.spring.bean.packages = []
+
+// hibernate SQL statements to console
 
 // set per-environment serverURL stem for creating absolute links
 environments {
@@ -58,7 +65,13 @@ environments {
 
 // log4j configuration
 log4j = {
-      debug   'org.hibernate'
+      debug   'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+      		  'org.hibernate.SQL',
+      		  'org.hibernate.type'
+			
+			//hibernate.SQL="trace,stdout"
+			//hibernate.type="trace,stdout"
+					
 
     // Example of changing the log pattern for the default console
     // appender:
@@ -75,9 +88,7 @@ log4j = {
 	       'org.codehaus.groovy.grails.web.mapping', // URL mapping
 	       'org.codehaus.groovy.grails.commons', // core / classloading
 	       'org.codehaus.groovy.grails.plugins', // plugins
-	       'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
 	       'org.springframework',
-	       'org.hibernate',
            'net.sf.ehcache.hibernate'
 
     warn   'org.mortbay.log'

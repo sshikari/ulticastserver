@@ -30,9 +30,36 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="player.name.label" default="Name" /></td>
+                            <td valign="top" class="name"><g:message code="player.firstName.label" default="First Name" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: playerInstance, field: "name")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: playerInstance, field: "firstName")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="player.lastName.label" default="Last Name" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: playerInstance, field: "lastName")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="player.teams.label" default="Teams" /></td>
+                            
+                            <td valign="top" style="text-align: left;" class="value">
+                                <ul>
+                                <g:each in="${playerInstance.teams}" var="t">
+                                    <li><g:link controller="team" action="show" id="${t.id}">${t.teamName}</g:link></li>
+                                </g:each>
+                                </ul>
+                            </td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="player.nickname.label" default="Nickname" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: playerInstance, field: "nickname")}</td>
                             
                         </tr>
                     

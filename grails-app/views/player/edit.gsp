@@ -32,10 +32,37 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="name"><g:message code="player.name.label" default="Name" /></label>
+                                  <label for="firstName"><g:message code="player.firstName.label" default="First Name" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: playerInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${playerInstance?.name}" />
+                                <td valign="top" class="value ${hasErrors(bean: playerInstance, field: 'firstName', 'errors')}">
+                                    <g:textField name="firstName" value="${playerInstance?.firstName}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="lastName"><g:message code="player.lastName.label" default="Last Name" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: playerInstance, field: 'lastName', 'errors')}">
+                                    <g:textField name="lastName" value="${playerInstance?.lastName}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="teams"><g:message code="player.teams.label" default="Teams" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: playerInstance, field: 'teams', 'errors')}">
+                                    
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="nickname"><g:message code="player.nickname.label" default="Nickname" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: playerInstance, field: 'nickname', 'errors')}">
+                                    <g:textField name="nickname" value="${playerInstance?.nickname}" />
                                 </td>
                             </tr>
                         

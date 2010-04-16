@@ -1,6 +1,7 @@
 package com.ulticast.controller
 
 import com.ulticast.domain.*
+import grails.converters.JSON
 
 class TeamController {
 
@@ -99,4 +100,19 @@ class TeamController {
             redirect(action: "list")
         }
     }
+	
+	def feed = {
+		//params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		//render Team.list(fetch:[players:"eager") as JSON
+		// get teams for a player
+    	def c = Team.createCriteria()
+    	def results = c.list {
+    			players {
+    				eq('id', new Long(params.id))					
+    			}
+		}
+    	render results as JSON
+	}
+	
+	
 }

@@ -1,6 +1,7 @@
 package com.ulticast.controller
 
 import com.ulticast.domain.*
+import grails.converters.*
 
 class PlayerController {
 
@@ -99,4 +100,11 @@ class PlayerController {
             redirect(action: "list")
         }
     }
+	
+	def feed = {
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		render Player.list(params) as JSON
+	}
+	
+	
 }

@@ -39,6 +39,15 @@
                                 </td>
                             </tr>
                         
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="players"><g:message code="team.players.label" default="Players" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: teamInstance, field: 'players', 'errors')}">
+                                    <g:select name="players" from="${com.ulticast.domain.Player.list()}" multiple="yes" optionKey="id" size="5" value="${teamInstance?.players}" optionValue="nickname" />
+                                </td>
+                            </tr>
+                        
                         </tbody>
                     </table>
                 </div>
