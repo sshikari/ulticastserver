@@ -42,12 +42,12 @@ class EventController {
 		def awayPlayers = awayTeam.players
 		
 		Team team = null		
-		if (homeTeam.teamName.equalsIgnoreCase(event.teamName)) {
+		if (homeTeam.teamName.equalsIgnoreCase(event.team.teamName)) {
 			team = homeTeam;   
-		} else if (awayTeam.teamName.equalsIgnoreCase(event.teamName)) {
+		} else if (awayTeam.teamName.equalsIgnoreCase(event.team.teamName)) {
 			team = awayTeam;      
 		} else {
-			println "Unknown team for game : " + event.teamName;
+			println "Unknown team for game : " + event.team.teamName;
 			// error
 		}
 		
@@ -111,7 +111,7 @@ class EventController {
 			// parse some fields
 			event.timestamp = Date.parse("yyyy-MM-dd hh:mm:ss", event.timestamp)
 			println i + " : eventType : " + event.eventType
-			println "teamName : " + event.teamName
+			println "teamName : " + event.team.teamName
 			
 			Event newEvent = pEvent(event, game, homeTeam, awayTeam);
 			
