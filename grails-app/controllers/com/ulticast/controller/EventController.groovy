@@ -36,59 +36,41 @@ class EventController {
 		}			
 	}
 
-    def pEvent (event, Game game, Team homeTeam, Team awayTeam){				
-		println event;
-		def homePlayers = homeTeam.players
-		def awayPlayers = awayTeam.players
+
+    def parseEvent (event, Game game, Team homeTeam, Team awayTeam){				
+
+		//def homePlayers = homeTeam.players
+		//def awayPlayers = awayTeam.players
 		
+		/**
+		- set home team, away team
+		      - players too
+		- set player value if not null
+		- set player/assister/caller/fouler for each event type
+						
 		Team team = null		
-		if (homeTeam.teamName.equalsIgnoreCase(event.teamName)) {
+		if (homeTeam.teamName.equalsIgnoreCase(event.team.name)) {
 			team = homeTeam;   
-		} else if (awayTeam.teamName.equalsIgnoreCase(event.teamName)) {
+		} else if (awayTeam.teamName.equalsIgnoreCase(event.team.name)) {
 			team = awayTeam;      
 		} else {
-			println "Unknown team for game : " + event.teamName;
+			println "Unknown team for game : " + event.team.name;
 			// error
 		}
-		
 		event.team = team		
+		*/
+
 		
-		Event newEvent = null				
-		String eventType = event.eventType;
-		
+//		Event newEvent = null
+//		String eventType = event.eventType;
+
+/*		
 		def findPlayer = { coll, val ->
 			coll.find{ it.name == val}
 		}
-		
-		if (eventType == WebConstants.EVENT_TYPE_PASS) {	       
-			newEvent = new PassEvent(event)
-		} else if (eventType.equals(WebConstants.EVENT_TYPE_SCORE)) {
-			if (event.player != null) {							
-				event.player = findPlayer(team.players, event.player)				
-			}
-			if (event.assister != null) {
-				event.assister = findPlayer(team.players, event.assister)
-			}
-			
-			newEvent = new ScoreEvent(event)			
-		} else if (eventType == WebConstants.EVENT_TYPE_TURN){
-			if (event.player != null) {							
-				event.player = findPlayer(team.players, event.player)				
-			}		
-			newEvent = new TurnEvent(event)
-		} else if (eventType == WebConstants.EVENT_TYPE_CALL){
-			if (event.fouler != null) {							
-				event.fouler = findPlayer(awayTeam.players, event.fouler)								
-			}
-			if (event.caller != null) {
-				event.caller = findPlayer(homeTeam.players, event.caller)												
-			}				    
-			newEvent = new CallEvent(event)
-		} else if (eventType == WebConstants.EVENT_TYPE_TIME) {
-			newEvent = new TimeEvent(event);
-		}
-		newEvent.game = game;
-		return newEvent
+*/
+
+
 		
 	}
 	
@@ -96,7 +78,7 @@ class EventController {
 		println "SAVING EVENTS"
 		
 		def gameId = params.gameId
-		println gameId
+		println "game id: " + gameId
 		Game game = Game.findById(gameId);
 		println "Found game : " + game
 		Team homeTeam = game.homeTeam
@@ -109,12 +91,18 @@ class EventController {
 		int i = 0;
 		for (event in jsonEventList) {
 			// parse some fields
+			println "event :" + event;
 			event.timestamp = Date.parse("yyyy-MM-dd hh:mm:ss", event.timestamp)
 			println i + " : eventType : " + event.eventType
-			println "teamName : " + event.teamName
+			println "teamName : " + event.team.name
 			
-			Event newEvent = pEvent(event, game, homeTeam, awayTeam);
-			
+			//Event newEvent = parseEvent(event, game, homeTeam, awayTeam);
+
+			println "parsing event : " + event
+		        EventWrapper eventWrapper = initEventWrapper(event, game)
+		        eventWrapper.setup(game)		
+
+		        Event newEvent = eventWrapper.newEvent()			
 			println "SAVING OBJECT"
 			if(newEvent.save(flush: true)) {
 				println "SAVED"
@@ -129,6 +117,25 @@ class EventController {
 		} // end for
 		render jsonEventList
 	}
+
+    def initEventWrapper(event, Game game) {
+    	def eventType = event.eventType
+	println "parsing event type : " + eventType
+        if (eventType == WebConstants.EVENT_TYPE_PASS) {    	    	
+	   new PassEventWrapper(event)
+	} else if (eventType.equals(WebConstants.EVENT_TYPE_SCORE)) {
+	   new ScoreEventWrapper(event);
+        } else if (eventType == WebConstants.EVENT_TYPE_TURN){
+	   new TurnEventWrapper(event);
+        } else if (eventType == WebConstants.EVENT_TYPE_CALL){
+	   new CallEventWrapper(event);
+        } else if (eventType == WebConstants.EVENT_TYPE_TIME) {
+	   new TimeEventWrapper(event);
+        } else {
+	   throw new RuntimeException("Unknown event type : " + eventType);    
+	}
+    }
+
 	
 	def save = {
 		def eventInstance = new Event(params)
@@ -209,3 +216,86 @@ class EventController {
 		}
 	}
 }
+
+    abstract class EventWrapper {
+       def event
+       def homeTeam;
+       def awayTeam;
+
+       EventWrapper(e){ event = e }
+       
+       def homePlayers() { homeTeam.players }
+       def awayPlayers() { awayTeam.players }
+ 
+       def setup(Game game) {
+          if (game.homeTeam.id == event.team.teamId) {
+       	     homeTeam = game.homeTeam;
+       	     awayTeam = game.awayTeam;
+          } else if (game.awayTeam.id == event.team.teamId) {
+       	     homeTeam = game.awayTeam;
+       	     awayTeam = game.homeTeam;
+          } else {
+             throw new RuntimeException("Unknown team for game : " + event.team);
+          }
+	  event.team = homeTeam;
+	  event.game = game;
+	  setEventSpecificProperties()
+       } 	  
+       def findPlayerById = { coll, val ->
+	  coll.find{ it.id == val}
+       }
+       abstract setEventSpecificProperties()
+       abstract newEvent()
+    }
+
+    class ScoreEventWrapper extends EventWrapper {
+    	  ScoreEventWrapper(e){ super(e) }
+	  def setEventSpecificProperties() {
+	      if (event.player != null) {
+	      	  println "players : " + homeTeam.players + ", looking for player : " + event.player
+		  event.player = findPlayerById(homeTeam.players, event.player.id)				
+	      }
+	      if (event.assister != null) {
+		  event.assister = findPlayerById(homeTeam.players, event.assister.id)
+	      }
+	  }
+	  def newEvent() {new ScoreEvent(event)}
+    }
+    class PassEventWrapper extends EventWrapper {
+    	  PassEventWrapper(e){ super(e) }
+	  def setEventSpecificProperties() {
+	      if (event.player != null) {
+	      	  event.player = findPlayerById(homeTeam.players, event.player.id)
+              }
+	  }
+	  def newEvent() {new PassEvent(event)}
+    }
+    class TurnEventWrapper extends EventWrapper {
+    	  TurnEventWrapper(e){ super(e) }
+	  def setEventSpecificProperties() {
+	      if (event.player != null) {
+	      	  event.player = findPlayerById(homeTeam.players, event.player.id)
+              }
+	  }
+	  def newEvent() {new TurnEvent(event)}
+    }
+    class CallEventWrapper extends EventWrapper {
+    	  CallEventWrapper(e){ super(e) }
+	  def setEventSpecificProperties() {
+	      if (event.fouler != null) {							
+		  event.fouler = findPlayerById(awayTeam.players, event.fouler.id)								
+	      }
+	      if (event.caller != null) {
+		  event.caller = findPlayerById(homeTeam.players, event.caller.id)									            }				    
+	  }
+	  def newEvent() {new CallEvent(event)}
+    }
+    class TimeEventWrapper extends EventWrapper {
+    	  TimeEventWrapper(e){ super(e) }
+	  def setEventSpecificProperties() {
+	  }
+	  def newEvent() {new TimeEvent(event)}
+    }
+
+
+

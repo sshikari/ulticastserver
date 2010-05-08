@@ -29,7 +29,7 @@ grails.views.default.codec="none" // none, html, base64
 grails.views.gsp.encoding="UTF-8"
 grails.converters.encoding = "UTF-8"
 grails.converters.json.date = "javascript"
-//grails.converters.json.default.deep = true
+grails.converters.json.default.deep = true
 
 grails.json.legacy.builder=false
 

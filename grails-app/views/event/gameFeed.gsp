@@ -25,7 +25,7 @@
                             <th><g:message code="event.game.label" default="Game" /></th>                                                                        
                             <th><g:message code="event.team.label" default="Team" /></th>                   	    
                             <th><g:message code="event.type.label" default="Type" /></th>                   	    
-<!--                            <th><g:message code="event.player.label" default="Player" /></th>   -->                	    
+                            <th><g:message code="event.player.label" default="Player" /></th>                	    
                             <g:sortableColumn property="notes" title="${message(code: 'event.notes.label', default: 'Notes')}" />
                             <g:sortableColumn property="timestamp" title="${message(code: 'event.timestamp.label', default: 'Timestamp')}" />                   	    
                         </tr>
@@ -42,6 +42,13 @@
                             	 </td>
                             <td>${fieldValue(bean: eventInstance, field: "team.teamName")}</td>
                             <td>${fieldValue(bean: eventInstance, field: "class")}</td>
+			   <g:if test="${org.apache.commons.beanutils.PropertyUtils.isReadable(eventInstance, 'player') }">
+                              <td>${fieldValue(bean: eventInstance, field: "player.nickname")} -   
+			      	   ${fieldValue(bean: eventInstance, field: "player.number")}</td>
+			   </g:if>
+                           <g:else>
+                              <td></td>
+			   </g:else> 			   
 
                         
                             <td>${fieldValue(bean: eventInstance, field: "notes")}</td>

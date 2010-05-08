@@ -2,6 +2,7 @@ package com.ulticast.controller
 
 import com.ulticast.domain.*
 import grails.converters.JSON
+import org.hibernate.FetchMode as FM
 
 class TeamController {
 
@@ -105,13 +106,27 @@ class TeamController {
 		//params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		//render Team.list(fetch:[players:"eager") as JSON
 		// get teams for a player
+        println "teams for id : " + params.id
     	def c = Team.createCriteria()
-    	def results = c.list {
-    			players {
-    				eq('id', new Long(params.id))					
-    			}
+    	def myTeamsList = c.list {
+	    		eq ("teamName", "Tufts")
+// testing ----
+//	    		eq "player.id", team.player
+//			eq "player.id", params.id
+//			join 'player'
+//    			players {
+//    				eq('id', new Long(params.id))				
+//    			}
+//			fetchMode("players", FM.EAGER)
 		}
-    	render results as JSON
+        def opponentsList = Team.list(fetch:[players:"eager"]);	
+	opponentsList.removeAll(myTeamsList);
+
+	myTeamsList.any {it.teamName}
+	Map map = [myTeams: myTeamsList, 
+	    	   opponents: opponentsList
+		   ];
+    	render map as JSON
 	}
 	
 	
