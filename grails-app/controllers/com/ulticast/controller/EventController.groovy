@@ -36,43 +36,6 @@ class EventController {
 		}			
 	}
 
-
-    def parseEvent (event, Game game, Team homeTeam, Team awayTeam){				
-
-		//def homePlayers = homeTeam.players
-		//def awayPlayers = awayTeam.players
-		
-		/**
-		- set home team, away team
-		      - players too
-		- set player value if not null
-		- set player/assister/caller/fouler for each event type
-						
-		Team team = null		
-		if (homeTeam.teamName.equalsIgnoreCase(event.team.name)) {
-			team = homeTeam;   
-		} else if (awayTeam.teamName.equalsIgnoreCase(event.team.name)) {
-			team = awayTeam;      
-		} else {
-			println "Unknown team for game : " + event.team.name;
-			// error
-		}
-		event.team = team		
-		*/
-
-		
-//		Event newEvent = null
-//		String eventType = event.eventType;
-
-/*		
-		def findPlayer = { coll, val ->
-			coll.find{ it.name == val}
-		}
-*/
-
-
-		
-	}
 	
 	def saveEvents = {
 		println "SAVING EVENTS"
@@ -96,8 +59,6 @@ class EventController {
 			println i + " : eventType : " + event.eventType
 			println "teamName : " + event.team.name
 			
-			//Event newEvent = parseEvent(event, game, homeTeam, awayTeam);
-
 			println "parsing event : " + event
 		        EventWrapper eventWrapper = initEventWrapper(event, game)
 		        eventWrapper.setup(game)		
