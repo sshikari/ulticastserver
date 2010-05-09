@@ -65,9 +65,9 @@ environments {
 
 // log4j configuration
 log4j = {
-      debug   'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-      		  'org.hibernate.SQL',
-      		  'org.hibernate.type'
+//      debug   'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+//      		  'org.hibernate.SQL',
+//      		  'org.hibernate.type'
 			
 			//hibernate.SQL="trace,stdout"
 			//hibernate.type="trace,stdout"
@@ -96,3 +96,5 @@ log4j = {
 
 
      
+
+//log4j.logger.org.springframework.security='off,stdout'
