@@ -1,20 +1,22 @@
 package com.ulticast.controller.api
 import grails.converters.JSON
 import com.ulticast.domain.*
+import java.text.SimpleDateFormat;
 import java.util.HashMap
 
 class ApiController {
+	public static  SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z")
 	protected static HEADER_ERROR = "error"
 	protected static HEADER_OK = "ok"
 	
-	def authenticateService
+	def apiAuthenticateService
 	
 	def index = { 	
 		
 	}
 	
 	def login = {
-		AuthToken token = authenticateService.getToken(params.username, params.password, "ROLE_MOBILE") 
+		AuthToken token = apiAuthenticateService.getToken(params.username, params.password, "ROLE_MOBILE") 
 		if (!token) {
 			 render getAuthenticationError() as JSON 
 			 return 
@@ -28,12 +30,12 @@ class ApiController {
 			render wrapResponse(getErrorMap("token must be supplied"), false) as JSON
 			return
 		} 		
-		authenticateService.invalidateToken(params.token)
+		apiAuthenticateService.invalidateToken(params.token)
 		render wrapResponse([], true) as JSON 
 	}
 	
 	private AuthUser getUser(String username, String password) {
-		authenticateService.validateCredentials(username,password,"ROLE_MOBILE")
+		apiAuthenticateService.validateCredentials(username,password,"ROLE_MOBILE")
 	}
 	
 	protected static HashMap getAuthenticationError() {
