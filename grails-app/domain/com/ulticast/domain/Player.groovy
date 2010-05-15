@@ -1,17 +1,29 @@
 package com.ulticast.domain
 
+import java.util.Date;
+
 class Player {
-	static belongsTo = Team
-	static hasMany = [teams: Team]
-	static fetchMode = [teams:'eager']
-                  
-    String nickname
+	String nickname
 	String firstName
 	String lastName	
-    int number 
-
-    static constraints = {
+	Integer number 
+	Date lastUpdated
+	Date dateCreated
+	
+	static belongsTo = Team
+	static hasMany = [teams: Team]
+	
+	static fetchMode = [teams:'eager']
+	
+	static mapping = {
+		autoTimestamp true
+	}
+	
+	static constraints = {
+		nickname(nullable: false)
 		firstName(nullable:true)
-		lastName(nullable:true)		
-    }
+		lastName(nullable:true)	
+		number(nullable:true)
+		lastUpdated(nullable:true)
+	}
 }

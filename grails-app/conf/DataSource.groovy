@@ -13,16 +13,16 @@ hibernate {
 environments {
 	development {
 		dataSource {
-			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-			url = "jdbc:hsqldb:mem:devDB"
+//			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+//			url = "jdbc:hsqldb:mem:devDB"
 			
 			//begin blake's db config
-//			dialect = "com.ulticast.db.MyCustomMySQL5InnoDBDialect"
-//			driverClassName = "com.mysql.jdbc.Driver"
-//			dbCreate = "update"
-//			url = "jdbc:mysql://localhost:3306/ulticast"
-//			username =  "ulticast"
-//			password = "groovy"
+			dialect = "com.ulticast.db.MyCustomMySQL5InnoDBDialect"
+			driverClassName = "com.mysql.jdbc.Driver"
+			dbCreate = "update"
+			url = "jdbc:mysql://localhost:3306/ulticast"
+			username =  "ulticast"
+			password = "groovy"
 			//end blake's db config
 		}
 	}

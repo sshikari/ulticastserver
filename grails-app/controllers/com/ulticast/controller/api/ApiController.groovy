@@ -1,4 +1,5 @@
 package com.ulticast.controller.api
+
 import grails.converters.JSON
 import com.ulticast.domain.*
 import java.text.SimpleDateFormat;
@@ -34,12 +35,77 @@ class ApiController {
 		render wrapResponse([], true) as JSON 
 	}
 	
+
+	def get_teams_overview = {
+		AuthToken token = apiAuthenticateService.validateToken(params.token)
+		if (!token) {
+			render getInvalidTokenError() as JSON
+			return
+		}
+		
+		def c = Team.createCriteria()
+		def teams = c {
+			eq("owner", token.user)
+		}
+		
+		def teamOverviews = []
+		
+		teams.each() {
+			def team = [:]
+			team.id = it.id
+			team.team_name = it.teamName
+			team.is_owner_team = it.isOwnerTeam
+			team.last_updated = it.lastUpdated ? DATE_FORMATTER.format(it.lastUpdated) : it.lastUpdated
+			teamOverviews.add(team)
+		}
+		
+		render wrapResponse([teams:teamOverviews], true) as JSON
+	}
+	
+	def get_teams = {
+		AuthToken token = apiAuthenticateService.validateToken(params.token)
+		if (!token) {
+			render getInvalidTokenError() as JSON
+			return
+		}
+		
+		def c = Team.createCriteria()
+		def teams = c {
+			eq("owner", token.user)
+		}
+		
+		render wrapResponse([teams:teams], true) as JSON
+	}
+	
+	def get_team = {
+		AuthToken token = apiAuthenticateService.validateToken(params.token)
+		if (!token) {
+			render getInvalidTokenError() as JSON
+			return
+		}
+		
+		def teamId = params.long("team_id")
+		
+		if (!teamId) {
+			render wrapResponse(getErrorMap("team_id is required.")) as JSON
+			return
+		}
+		
+		def team = Team.get(teamId)
+
+		render wrapResponse([team:team], true) as JSON
+	}
+	
 	private AuthUser getUser(String username, String password) {
 		apiAuthenticateService.validateCredentials(username,password,"ROLE_MOBILE")
 	}
 	
 	protected static HashMap getAuthenticationError() {
 		wrapResponse(getErrorMap("Invalid username or password."), false)
+	}
+	
+	protected static HashMap getInvalidTokenError() {
+		wrapResponse(getErrorMap("The supplied token is either invalid or expired."), false)
 	}
 	
 	protected static HashMap getErrorMap(String error) {
