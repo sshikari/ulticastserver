@@ -9,6 +9,7 @@ class Player {
 	Integer number 
 	Date lastUpdated
 	Date dateCreated
+	Boolean isActive = true
 	
 	static belongsTo = Team
 	static hasMany = [teams: Team]

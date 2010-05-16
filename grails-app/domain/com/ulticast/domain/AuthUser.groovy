@@ -28,6 +28,12 @@ class AuthUser {
 	/** plain password to create a MD5 password */
 	String pass = '[secret]'
 
+	Date dateCreated
+	Date lastUpdated
+	
+	static mapping = {
+		autoTimestamp true
+	}
 	static constraints = {
 		username(blank: false, unique: true)
 		userRealName(blank: false)

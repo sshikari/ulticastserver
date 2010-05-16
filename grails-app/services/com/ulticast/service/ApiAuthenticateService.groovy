@@ -57,8 +57,7 @@ class ApiAuthenticateService {
 		def user = validateCredentials(username, password, role)
 		if (user) {
 			def token = new AuthToken(token: generateTokenString(), 
-					user:user, role:AuthRole.findByAuthority(role),
-					creationDate:new Date(), isActive: true)
+					user:user, role:AuthRole.findByAuthority(role), isActive: true)
 			if (token.save(flush:true)) 
 				return token
 		} 
@@ -76,6 +75,9 @@ class ApiAuthenticateService {
 	 * @return
 	 */
 	public AuthToken validateToken(String tokenString) {
+		if (!tokenString)
+			return null
+			
 		AuthToken token = AuthToken.findByToken(tokenString)
 		
 		if (token && token.isActive) {

@@ -4,15 +4,20 @@ class AuthToken {
 	String token
 	AuthUser user
 	AuthRole role
-	Date creationDate
 	Date expirationDate
 	boolean isActive 
+	Date dateCreated
+	Date lastUpdated
+
+	static mapping = {
+		autoTimestamp true
+	}
 	
     static constraints = {
 		token(nullable: false, unique: true)
 		user(nullable: false)
 		role(nullable: false)
-		creationDate(nullabke: false)
+		lastUpdated(nullable: true)
 		expirationDate(nullable: true)
 		isActive(nullable: false)
     }
