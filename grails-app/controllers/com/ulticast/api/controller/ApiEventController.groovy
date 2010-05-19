@@ -8,7 +8,6 @@ import com.ulticast.domain.*
 import java.text.SimpleDateFormat;
 import java.util.HashMap
 import com.ulticast.api.ApiUtil as U
-import com.ulticast.api.EventParserJson
 import org.hibernate.TypeMismatchException
 
 class ApiEventController {
