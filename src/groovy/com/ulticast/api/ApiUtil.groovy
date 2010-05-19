@@ -19,6 +19,7 @@ class ApiUtil {
 	protected static final Integer ERR_CODE_NO_PERM = 5
 	protected static final Integer ERR_CODE_NEWER_ON_SERVER = 6
 	protected static final Integer ERR_CODE_MISSING_PARAM = 7
+	protected static final Integer ERR_CODE_INVALID_PARAM = 8 
 
 	
 //	def static apiAuthenticateService
@@ -75,6 +76,4 @@ class ApiUtil {
 	protected static def wrapError(error, errorCode) {
 		wrapResponse(getErrorMap(error), false, errorCode)
 	}
-	
-	
 }

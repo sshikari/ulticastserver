@@ -3,7 +3,7 @@ package com.ulticast.domain
 class CallEvent extends Event {
     String callType
     Team team
-    Boolean contested = Boolean.FALSE;
+    Boolean isContested = false
     Player caller
     Player fouler
       

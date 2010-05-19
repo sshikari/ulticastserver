@@ -49,6 +49,11 @@ class UrlMappings {
 			controller = "apiTeam"
 			action = "delete0" 
 		}
+		
+		"/api/event/save" {
+			controller = "apiEvent"
+			action = "save0"
+		}
 				
 		//END API MAPPINGS
 	}

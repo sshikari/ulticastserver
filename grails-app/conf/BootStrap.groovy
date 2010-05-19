@@ -84,10 +84,10 @@ class BootStrap {
 				.addToPlayers(new Player(nickname:"T7", number:7))
 				.save()
 			
-			Game game = new Game(homeTeam:harvard, awayTeam:tufts)
+			Game game = new Game(owner:userBlake, homeTeam:harvard, awayTeam:tufts)
 			game.save()
 			
-			Game game2 = new Game(homeTeam:harvard, awayTeam:tufts)
+			Game game2 = new Game(owner:userBlake, homeTeam:harvard, awayTeam:tufts)
 			game2.save()
 			
 			Date now = new Date()

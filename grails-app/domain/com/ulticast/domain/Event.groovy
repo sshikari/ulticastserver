@@ -16,4 +16,5 @@ class Event {
 		notes(nullable:true)
 		lastUpdated(nullable:true)
 	}
+
 }
