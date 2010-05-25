@@ -76,4 +76,8 @@ class ApiUtil {
 	protected static def wrapError(error, errorCode) {
 		wrapResponse(getErrorMap(error), false, errorCode)
 	}
+
+  	protected static boolean booleanFromParam(String str) {
+		  return "1" == str?.trim();
+        }
 }

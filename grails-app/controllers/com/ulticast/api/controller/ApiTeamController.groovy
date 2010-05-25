@@ -107,11 +107,12 @@ class ApiTeamController {
 		}
 		
 		team.teamName = params.name
-		team.isOwnerTeam = params.is_my_team
+		// rchang - iphone form posting turns false to 0, true to 1
+		team.isOwnerTeam = U.booleanFromParam(params.is_my_team)
 		
 		if (!params.no_player_update) {
 			def players = []
-			def jsonPlayers = JSON.parse(params.players)		
+			def jsonPlayers = params.players ? JSON.parse(params.players) : []		
 			
 			jsonPlayers.each() {
 				Player p = new Player(id:it.id,
@@ -165,7 +166,7 @@ class ApiTeamController {
 			def returnMap = [:]
 			returnMap.id = team.id
 			returnMap.version = team.version
-			render U.wrapRespnse([team:returnMap], true) as JSON
+			render U.wrapResponse([team:returnMap], true) as JSON
 		} else {
 			render U.wrapResponse(team.errors, false, U.ERR_CODE_SAVING) as JSON
 		}
