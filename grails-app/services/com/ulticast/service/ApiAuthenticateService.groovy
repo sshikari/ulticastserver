@@ -10,6 +10,18 @@ class ApiAuthenticateService {
 	
 	def authenticateService
 	
+	public AuthUser createUser(allParams) {
+		AuthUser user = new AuthUser()
+		user.username = allParams.username
+		user.firstName = allParams.first_name
+		user.lastName = allParams.last_name
+		user.passwd = authenticateService.encodePassword(allParams.password)
+		user.enabled = true
+		user.email = allParams.email
+		user.emailShow = true
+		user.save(flush:true) 
+		return user
+	}
 	/**
 	 * Verifies that the user exists for the supplied username, password and 
 	 * AuthRole.

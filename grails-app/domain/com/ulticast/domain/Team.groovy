@@ -10,14 +10,14 @@ class Team {
 	Date dateCreated
 	Date lastUpdated
 	
-	static hasMany = [ players : com.ulticast.domain.Player ]
+	static hasMany = [ players : Player ]
 	
 	static mapping = {
 		autoTimestamp true
 	}
 	
 	static constraints = {
-		teamName(nullable: false)
+		teamName(nullable:false, blank:false)
 		lastUpdated(nullable:true)
 	}
 }

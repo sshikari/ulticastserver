@@ -10,19 +10,18 @@ class AuthUser {
 	static hasMany = [authorities: AuthRole]
 	static belongsTo = AuthRole
 
-	/** Username */
 	String username
-	/** User Real Name*/
-	String userRealName
+	String firstName
+	
+	String lastName
+	
 	/** MD5 Password */
 	String passwd
-	/** enabled */
 	boolean enabled
 
 	String email
 	boolean emailShow
 
-	/** description */
 	String description = ''
 
 	/** plain password to create a MD5 password */
@@ -35,9 +34,13 @@ class AuthUser {
 		autoTimestamp true
 	}
 	static constraints = {
-		username(blank: false, unique: true)
-		userRealName(blank: false)
-		passwd(blank: false)
+		username(blank: false,unique: true)
+		firstName(nullable: false,blank: false)
+		lastName(nullable:false,blank:false)
+		passwd(blank:false)
 		enabled()
+		email(email:true,nullable:false)
 	}
+	
+	
 }

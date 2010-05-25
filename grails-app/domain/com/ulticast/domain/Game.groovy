@@ -4,8 +4,8 @@ class Game {
 	AuthUser owner
     Team homeTeam
     Team awayTeam
-    int homeTeamScore
-    int awayTeamScore
+    Integer homeTeamScore = 0 
+    Integer awayTeamScore = 0
 
     static constraints = {
     }

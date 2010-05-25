@@ -46,18 +46,23 @@ class BootStrap {
 		if (!Player.get(1)) {
 			
 			AuthUser userBlake = new AuthUser(authorities:[],
-			username:"blake", userRealName:"Blake Barnes", 
-			passwd:authenticateService.encodePassword("blake"),
-			enabled:true, email:"blake@blake.com", emailShow:false).save()
+				username:"blake", firstName:"Blake", lastName:"Barnes", 
+				passwd:authenticateService.encodePassword("blake"),
+				enabled:true, email:"blake@blake.com", emailShow:false, 
+				description:"test").save()
 			
 			AuthUser userTest = new AuthUser(authorities:[],
-			username:"test", userRealName:"Test User", 
-			passwd:authenticateService.encodePassword("test"),
-			enabled:true, email:"test@test", emailShow:false).save()
+				username:"test", firstName:"Test",lastName:"User", 
+				passwd:authenticateService.encodePassword("test"),
+				enabled:true, email:"test@test.com", emailShow:false,
+				description:"test").save()
 			
-			AuthRole userRole = new AuthRole(people:[userBlake,userTest], authority:"ROLE_WEB", description: "Web user").save()
-			AuthRole adminRole = new AuthRole(people:[userBlake,userTest], authority:"ROLE_ADMIN", description: "Admin user").save()
-			AuthRole mobileRole = new AuthRole(people:[userBlake,userTest], authority:"ROLE_MOBILE", description: "Mobile user").save()
+			AuthRole userRole = new AuthRole(people:[userBlake,userTest], 
+					authority:"ROLE_WEB", description: "Web user").save()
+			AuthRole adminRole = new AuthRole(people:[userBlake,userTest], 
+					authority:"ROLE_ADMIN", description: "Admin user").save()
+			AuthRole mobileRole = new AuthRole(people:[userBlake,userTest], 
+					authority:"ROLE_MOBILE", description: "Mobile user").save()
 			
 			Player bill = new Player(nickname:"Bill", number:7)
 			Player hill = new Player(nickname:"Hillary", number:8)
@@ -92,58 +97,69 @@ class BootStrap {
 			
 			Date now = new Date()
 			
-			new TimeEvent(game:game, timeType: "START", team: harvard,
+			new TimeEvent(game:game, timeType: TimeEvent.TIME_TYPE_START, callTeam: harvard,
 					timestamp: now).save()
 			
 			new PassEvent(player:bill, 
 				game: game,
-				team: harvard, 
+				offenseTeam: harvard, 
+				stallCount: 5,
+				passCount: 1,
 				timestamp: now).save()
 			
 			new PassEvent(player:hill, 
 				game: game, 
-				team: harvard, 
+				offenseTeam: harvard, 
+				stallCount: 6,
+				passCount: 2,
 				timestamp: now).save()	
 			
 			new ScoreEvent(player:bill, 
 				assister:hill,
-				distanceDescriptor: "from midfield!!!",
+				distance: ScoreEvent.DISTANCE_MIDFIELD,
 				game: game, 
-				team: harvard,
-				score: 1, 
+				scorerTeam: harvard,
+				stallCount: 7,
+				passCount: 3,
 				timestamp: now).save()
 			
-			new TimeEvent(game:game, team: tufts, timeType: "TIMEOUT",
+			new TimeEvent(game:game, callTeam: tufts, timeType: TimeEvent.TIME_TYPE_TIMEOUT,
 					timestamp: now).save()
 			
 			new PassEvent(player:rich, 
 				game: game,
-				team: tufts, 
+				offenseTeam: tufts, 
+				stallCount: 3,
+				passCount: 1,
 				timestamp: now).save()
 			
 			new PassEvent(player:blake, 
 				game: game, 
-				team: tufts, 
+				offenseTeam: tufts, 
+				stallCount: 6,
+				passCount: 2,
 				timestamp: now).save()	
 			
 			new TurnEvent(player:rich, 
-				turnType: "DROP",
+				turnType: TurnEvent.TURN_TYPE_DROP,
 				game: game, 
-				team: tufts,
+				newDefenseTeam: tufts,
+				newOffenseTeam: harvard,
+				stallCount: 8,
+				passCount: 3,
 				notes: "rich missed an easy one...:(",
 				timestamp: now).save()
 			
-			new CallEvent(callType: "FOUL", 
-				contested: Boolean.TRUE,
-				caller:bill,
-				fouler:rich,
+			new CallEvent(callType: CallEvent.CALL_TYPE_DEFENSIVE_FOUL, 
+				offensiveTeam: tufts, 
+				defensiveTeam: harvard,
+				isContested: true,
 				game: game, 
-				team: tufts, 
 				timestamp: now).save()	
-			
-			new TimeEvent(game:game, timeType: "END", team: harvard).save()
 		}        		
 	}
+	
 	def destroy = {
+	
 	}
 } 

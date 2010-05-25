@@ -50,9 +50,9 @@ class UrlMappings {
 			action = "delete0" 
 		}
 		
-		"/api/event/save" {
+		"/api/event/new" {
 			controller = "apiEvent"
-			action = "save0"
+			action = "new0"
 		}
 				
 		//END API MAPPINGS

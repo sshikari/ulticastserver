@@ -9,9 +9,20 @@ import com.ulticast.api.ApiUtil as U;
 class ApiMainController {
 	
 	def apiAuthenticateService
+	def authenticateService
 	
 	def index = { 	
 		
+	}
+	
+	def register = {
+			def password = params.password;			
+			
+			if (!password || password.length() < 5 || password.length() > 15) {
+				//password must be btw 5 and 15 characters
+			}
+
+			
 	}
 	
 	def login = {
