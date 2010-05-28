@@ -79,5 +79,5 @@ class ApiUtil {
 
   	protected static boolean booleanFromParam(String str) {
 		  return "1" == str?.trim();
-        }
+    }
 }

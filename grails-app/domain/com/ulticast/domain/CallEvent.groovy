@@ -12,8 +12,8 @@ class CallEvent extends Event {
 	                                  CALL_TYPE_TRAVEL,
 	                                  CALL_TYPE_STALL]
     Integer callType
-    Team offensiveTeam
-    Team defensiveTeam
+    Team offenseTeam
+    Team defenseTeam
     Player callerPlayer
     Player foulerPlayer
     Boolean isContested = false

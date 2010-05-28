@@ -4,6 +4,9 @@ import grails.converters.JSON
 import com.ulticast.domain.*
 import java.text.SimpleDateFormat;
 import java.util.HashMap
+
+import org.hsqldb.lib.Iterator;
+
 import com.ulticast.api.ApiUtil as U
 
 class ApiTeamController {
@@ -111,16 +114,49 @@ class ApiTeamController {
 		team.isOwnerTeam = U.booleanFromParam(params.is_my_team)
 		
 		if (!params.no_player_update) {
-			def players = []
+			def players = team.players
 			def jsonPlayers = params.players ? JSON.parse(params.players) : []		
 			
-			jsonPlayers.each() {
-				Player p = new Player(id:it.id,
-				nickname:it.nickname,
-				firstName:it.first_name,
-				lastName:it.last_name,
-				number:it.number)
-				players.add(p)
+			
+			//find players that need to be removed from the list
+			def removePlayers = []
+			players.each() { existingPlayer ->
+				def found = false	
+				jsonPlayers.each { newPlayer ->
+					if (!found) {
+						found = existingPlayer.id == newPlayer.id 
+					}
+				}
+				if (!found) {
+					removePlayers.add(existingPlayer)
+				}
+			}
+			
+			//remove them from the list
+			//do we ever want to delete them?
+			removePlayers.each {
+				players.remove(it)
+			}
+			
+			//update or create the rest
+			jsonPlayers.each() { jsonPlayer->
+				Player p = new Player()
+				
+				if (jsonPlayer.id) {
+					players.each() { existingPlayer ->
+						if (existingPlayer.id == jsonPlayer.id) {
+							p = existingPlayer
+						}
+					}
+				} else {
+					players.add(p)
+				}
+				
+				p.nickname = jsonPlayer.nickname
+				p.firstName = jsonPlayer.first_name
+				p.lastName = jsonPlayer.last_name
+				p.number = jsonPlayer.number
+				p.save()
 			}
 			team.players = players
 		}

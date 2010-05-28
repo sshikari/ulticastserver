@@ -65,6 +65,7 @@ class ApiEventController {
 			try {
 				def event = parseEvent(game,it)
 				events.add(event)
+				
 				if(!event.save(flush:true)) {
 					event.errors.each() {
 						errors.add(it)
@@ -120,6 +121,7 @@ class ApiEventController {
 	private static Event createPassEvent(json) {
 		def event = new PassEvent()
 		event.offenseTeam = Team.get(json.offense_team)
+		event.defenseTeam = Team.get(json.defense_team)
 		event.throwPlayer = Player.get(json.throw_player)
 		event.receivePlayer = Player.get(json.receive_player)
 		event.stallCount = json.stall_count
@@ -163,6 +165,8 @@ class ApiEventController {
 	private static Event createCallEvent(json) {
 		def event = new CallEvent()
 		event.callType = json.call_type
+		event.offenseTeam = Team.get(json.offense_team)
+		event.defenseTeam = Team.get(json.defense_team)
 		event.callerPlayer = Player.get(json.caller_player)
 		event.foulerPlayer = Player.get(json.fouler_player)
 		event.isContested = json.is_contested
@@ -177,7 +181,7 @@ class ApiEventController {
 		event.pullPlayer = Player.get(json.pull_player)
 		event.receivePlayer = Player.get(json.recieve_player)
 		
-		//TODO handles lineups
+		//TODO need to handle lineups!!!
 		return event
 	}
 }

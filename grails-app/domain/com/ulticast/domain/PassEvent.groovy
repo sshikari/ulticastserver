@@ -2,6 +2,7 @@ package com.ulticast.domain
 
 class PassEvent extends Event {
 	Team offenseTeam
+	Team defenseTeam
 	Player throwPlayer
 	Player receivePlayer
     Integer stallCount
